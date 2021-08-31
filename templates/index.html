@@ -1,0 +1,325 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}" media="screen,projection">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link
+        rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
+        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+        <script type="text/javascript" src="{{url_for('static', filename='js/main.js') }}"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <div
+            class="gridContainer">
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4 style=" text-align: center;">Templates</h4>
+                    <div class="modalcontainer">
+                        <div class="card">
+                            <div class="card-image modal-close">
+                                <img src="static/images/edit_icon.svg">
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">
+                                    <i   class="material-icons right">close</i>
+                                </span>
+                                <p>Create a new plate model from scratch.
+                                </p>
+                            </div>
+                            <div class="card-action center-align">
+                                <a class="activator blue-grey-text" href="#">info</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image modal-close waves-effect">
+                                <img onclick="updateUIfromJSON(0);" src="static/images/ss_square_plate.svg">
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">
+                                    <i   class="material-icons right">close</i>
+                                </span>
+                                <p>Square plate simply supported by four walls at the edges.
+                                </p>
+                            </div>
+                            <div class="card-action center-align">
+                                <a class="activator blue-grey-text" href="#">info</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="static/images/L-plate.svg">
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">
+                                    <i   class="material-icons right">close</i>
+                                </span>
+                                <p>L-shaped plate with two clamped edges (no rotations allowed).
+                                </p>
+                            </div>
+                            <div class="card-action center-align">
+                                <a class="activator blue-grey-text" href="#">info</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="static/images/T-plate.svg">
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">
+                                    <i   class="material-icons right">close</i>
+                                </span>
+                                <p>T-shaped plate with two simply supported edges and four point-suport on the central horizontal axis.
+                                </p>
+                            </div>
+                            <div class="card-action center-align">
+                                <a class="activator blue-grey-text" href="#">info</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">CLOSE</a>
+                </div>
+            </div>
+
+
+            <nav class="myNav">
+                <div class="nav-wrapper">
+                    <a href="#!" class="brand-logo platepyLogo">Platepy</a>
+                    <ul class="right">
+                        <li>
+                            <a href="#!">
+                                <i class="material-icons">help_outline</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="location.reload();">
+                                <i class="material-icons">refresh</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <ul id="slide-out" class="sidenav">
+                <li>
+                    <div style="padding-top: 120px;"></div>
+                </li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li>
+                    <a class="waves-effect sidenavlinks modal-trigger sidenav-close" href="#modal1">Templates</a>
+                </li>
+                <li>
+                    <a class="waves-effect sidenavlinks sidenav-close" href="#!">Walkthrough</a>
+                </li>
+                <li>
+                    <a class="waves-effect sidenavlinks sidenav-close" href="#!">About</a>
+                </li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+            </ul>
+            <a href="#" data-target="slide-out" class=" sidenav-trigger" id="slidemenu">
+                <i class="material-icons" id="slidemenulogo">menu</i>
+            </a>
+
+            <form action="/" method="POST" id="mainForm" name="mainForm" class="form" onsubmit="return validateForm()">
+                <div id="tabDivs" class="row">
+                    <div class="col s12">
+                        <ul class="tabs" id="componentTabs">
+                            <li class="tab col s3">
+                                <a class href="#loadAndMaterial">Load and material
+                                </a>
+                            </li>
+                            <li class="tab col s3">
+                                <a class="active" href="#plate">Plate</a>
+                            </li>
+                            <p id="lastTabElement"></p>
+                        </ul>
+                        <div class="newStructuralElements">
+                            <button style="width: 130px;" id="addWallBtn" class="btn waves-effect waves-light" type="button" name="newWall" onclick="newElementID = addWall(); updateTabPosition(newElementID);">+ wall</button>
+                            <button style="width: 130px;" class="btn waves-effect waves-light" type="button" name="newCol" onclick="addColumn();">+ column</button>
+                        </div>
+                    </div>
+                    <div id="loadAndMaterial" class="col s12">
+                        <table>
+                            <tr>
+                                <th>
+                                    <label for="Load">Magnitude of the distributed load</label>
+                                    <input type="tel" name="loadMag"></th>
+                                <th>
+                                    <select class="browser-default" name='loadMagUnit'>
+                                        <option value="1">kN</option>
+                                        <option value="2">kip</option>
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="Emodulus">Compression modulus E</label>
+                                    <input type="tel"  name="eMod"></th>
+                                <th>
+                                    <select class="browser-default" name='eModUnit'>
+                                        <option value="1">GPa</option>
+                                        <option value="2">N/mm2</option>
+                                        <option value="3">Mpsi</option>
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="Gmodulus">
+                                        Shear modulus G
+                                    </label>
+                                    <input type="tel" name="gMod">
+                                </th>
+                                <th>
+                                    <select class="browser-default" name='gModUnit'>
+                                        <option value="1">GPa</option>
+                                        <option value="2">N/mm2</option>
+                                        <option value="3">Mpsi</option>
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="nu">
+                                        nu
+                                    </label>
+                                    <input type="tel" name="nu"></th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="plate" class="col s12">
+                        <div id="plateThicknessContainer">
+                            <div style="display:inline-block;" class="input-field col s6 bottomOfContainer">
+                                <input type="tel" name="plateThick">
+                                <label>
+                                    Thickness
+                                </label>
+                            </div>
+                            <div style="display:inline-block;" class="bottomOfContainer">
+                                <select class="browser-default" name="plateThickUnit">
+                                    <option value="1">mm</option>
+                                    <option value="2">inch</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <table id="plate_1_OC">
+                            <tr>
+                                <th>
+                                    <select class="browser-default" name="plateOutlineUnit">
+                                        <option value="1">m</option>
+                                        <option value="2">ft</option>
+                                    </select>
+                                </th>
+                                <th class="centeredRow">x</th>
+                                <th class="centeredRow">y</th>
+                                <th>
+                                    <a class="btn-floating btn-large waves-effect waves-light white" onclick="addOutlineCoordinateToTable('plate_1_OC');">
+                                        <i class="material-icons">add</i>
+                                    </a>
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="computeButton">
+                    <div id="displacementsUnitResult">
+                        <p>
+                            Displacements
+                            <select class="browser-default" name="vDispUnit">
+                                <option value="1">mm</option>
+                                <option value="2">inch</option>
+                            </select>
+                        </p>
+                    </div>
+                    <div id="bendingUnitResult">
+                        <p>
+                            Bending moments
+                            <select class="browser-default" name="mUnit">
+                                <option value="1">kNm</option>
+                                <option value="2">lbf·ft</option>
+                            </select>
+                        </p>
+                    </div>
+                    <div id="shearUnitResult">
+                        <p>
+                            Shear forces
+                            <select class="browser-default" name="vUnit">
+                                <option value="1">kN</option>
+                                <option value="2">lbf</option>
+                            </select>
+                        </p>
+                    </div>
+
+                    <div id="geometryBtn">
+                        <button class="btn waves-effect waves-light" type="button" onclick="getFormData('displyGeometry');" name="action">geometry</button>
+                    </div>
+                    <div id="computationLoader" class="preloader-wrapper small active" style="display: none;">
+                        <div class="spinner-layer spinner-green-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="computeBtn">
+                        <button class="btn waves-effect waves-light" type="button" onclick="getFormData('computeModel');" name="action">Compute</button>
+                    </div>
+                </div>
+            </form>
+
+
+            <div class="resultsSection" id="resultsSection"></div>
+
+
+            <div class="footer">
+                <footer class="page-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col l6 s12">
+                                <h5 class="white-text">Platepy - FEM plate calculator</h5>
+                                <p class="grey-text text-lighten-4">A tool to calculate plate displacements and internal forces using finite elements.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="footer-copyright">
+                        <div class="container">
+                            Made with ❤️ by
+                            <a class="text-lighten-3 boldText">Tobia Diggelmann</a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.js"></script> -->
+        <script type="text/javascript" src="{{url_for('static', filename='js/materialize.js') }}"></script>
+
+
+    </body>
+
+</html>

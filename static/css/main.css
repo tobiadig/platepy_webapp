@@ -1,0 +1,234 @@
+body{
+  background-color: white;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.gridContainer{
+  min-height: 100%;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  grid-template-rows: auto auto 1fr auto;
+  row-gap: 50px;
+  grid-template-areas: 
+    "h  h  h  h  h  h h"
+    ". . fm fm fm . ."
+    ". . rS rS rS . ."
+    "f  f  f  f  f  f f";
+}
+
+
+.myNav{
+  /* background-color:  #EE6E73; #2959FF */
+  background-color:#7773ff;
+  grid-area: h ;
+}
+
+.platepyLogo{
+  padding-left: 75px;
+}
+
+.sidenav{
+  background-color: #e1e0fc;
+}
+
+.sidenavlinks{
+  background-color: #adabe4;
+}
+
+.modalcontainer{
+  height: 70%;
+  /* width: 100vw; */
+  display: grid;
+  /* grid-template-columns: 1fr 1fr 1fr; */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.myslidenav{
+  grid-area: sn;
+  background-color:  #671bf5;
+}
+
+.form{
+  grid-area: fm;
+  align-self: start;
+}
+
+
+
+.newStructuralElements{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.computeButton{
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  grid-template-rows:1fr 1fr;
+  row-gap: 5px;
+  text-align: center;
+  grid-template-areas: 
+    "dispU bU sU"
+    "gBtn cL cBtn";
+}
+
+#geometryBtn{
+  grid-area: gBtn;
+  text-align: right;
+}
+
+#computationLoader{
+  grid-area: cL;
+  position: relative;
+  right: -44%;
+}
+#computeBtn{
+  grid-area: cBtn;
+  text-align: left;
+}
+
+#displacementsUnitResult{
+  grid-area: dispU;
+}
+
+#bendingUnitResult{
+  grid-area: bU;
+}
+
+#shearUnitResult{
+  grid-area: sU;
+}
+
+.boldText{
+  font-weight: bold;
+  color:white;
+}
+
+
+
+.resultsSection{
+  max-height: 100vw;
+  max-width: 100vw;
+  grid-area: rS;
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  grid-template-rows: 1fr 1fr auto;
+  row-gap: 10px;
+  text-align: center;
+  vertical-align: center;
+  grid-template-areas: 
+    "w w mx mx my my mesh"
+    "mxy  mxy vx vx vy vy mesh"
+    "img img img img img img img ";
+}
+
+#w_btn{
+  grid-area: w;
+}
+
+#mx_btn{
+  grid-area: mx;
+}
+
+#my_btn{
+  grid-area: my;
+}
+
+#mxy_btn{
+  grid-area: mxy;
+}
+
+#vx_btn{
+  grid-area: vx;
+}
+
+#vy_btn{
+  grid-area: vy;
+}
+
+#mesh_btn{
+  grid-area: mesh;  
+}
+
+.imageContainer{
+  grid-area: img;
+}
+
+.footer{
+  grid-area: f;
+  align-self: end;
+}
+/* 830 */
+@media only screen and (max-width: 830px) {
+  .gridContainer {
+    min-height: 100%;
+    width: 100%;
+    display: grid;
+    row-gap: 50px;
+    /* grid-template-columns: 1fr; */
+    grid-template-columns: auto auto 1fr 1fr 1fr auto auto;
+  }
+  .form{
+    padding-left: 4%;
+    padding-right: 4%;
+    grid-area: fm;
+    align-self: start;
+  }
+  
+  .resultsSection{
+    padding-left: 4%;
+    padding-right: 4%;
+    max-height: 100vw;
+    max-width: 100vw;
+    grid-area: rS;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    grid-template-rows: 1fr 1fr auto;
+    row-gap: 10px;
+    text-align: center;
+    vertical-align: center;
+    grid-template-areas: 
+      "w w mx mx my my mesh"
+      "mxy  mxy vx vx vy vy mesh"
+      "img img img img img img img ";
+  }
+}
+
+.centeredRow{
+  text-align:center
+}
+
+/* label {
+  white-space:nowrap;
+} */
+
+.notWrappable {
+  white-space:nowrap;
+}
+
+sup {font-size:xx-small; vertical-align:super;}
+
+.errorMessage{
+  color: #FF6464;
+  border: 9px solid #FF6464;
+  padding: 20px;
+  grid-area: img;
+}
+
+#slidemenu{
+  position: absolute;
+  left: 20px;
+  top: 12px;
+  color:white;
+}
+
+
+
+#slidemenulogo{
+  font-size: 2.5em;
+}
